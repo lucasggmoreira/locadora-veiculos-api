@@ -14,13 +14,12 @@ import lombok.Setter;
 public class Veiculo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
     private String cnh;
-
 
 }

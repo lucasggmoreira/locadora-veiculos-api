@@ -1,4 +1,4 @@
-package me.lucasggmoreira.locadoraveiculos.controllers;
+package me.lucasggmoreira.locadoraveiculos.controllers.cliente;
 
 import me.lucasggmoreira.locadoraveiculos.models.Cliente;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioCliente;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/cliente")
-public class Controlador {
+public class ControladorGeral {
 
     @Autowired
     private RepositorioCliente repositorioCliente;
@@ -19,14 +19,17 @@ public class Controlador {
 
     @PostMapping
     public ResponseEntity<String> cadastrarCliente(@RequestBody Cliente json){
-
-        return null;
+        Cliente novoCliente = new Cliente(json);
+        repositorioCliente.save(novoCliente);
+        return ResponseEntity.ok("Cliente cadastrado com sucesso! ID do cliente: " + novoCliente.getId());
     }
 
-    @GetMapping
-    public ResponseEntity<String> listarClientes(){
-        return null;
 
+    @GetMapping
+    public ResponseEntity listarClientes(){
+        Iterable<Cliente> clientes = repositorioCliente.findAll();
+        if (repositorioCliente.findAll().isEmpty()) return ResponseEntity.badRequest().body("O banco de dados de clientes está vazio!");
+        return ResponseEntity.ok(clientes);
     }
 
 

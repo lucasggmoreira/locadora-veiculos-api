@@ -12,11 +12,13 @@ import java.util.List;
 
 public class Cliente {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    @ManyToMany(mappedBy = "cliente", cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(name = "cliente_veiculo",
+            joinColumns = @JoinColumn(name = "cliente_id"),
+            inverseJoinColumns = @JoinColumn(name = "veiculo_id"))
     private List<Veiculo> historico;
 
     private String nome;
@@ -33,6 +35,7 @@ public class Cliente {
     }
 
     public Cliente(Cliente cliente) {
+        if (cliente.getId() != null) this.id = cliente.getId();
         this.nome = cliente.getNome();
         this.endereco = cliente.getEndereco();
         this.telefone = cliente.getTelefone();
