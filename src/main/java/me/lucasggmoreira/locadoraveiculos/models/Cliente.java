@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import me.lucasggmoreira.locadoraveiculos.exceptions.ClienteJaExistenteException;
+import me.lucasggmoreira.locadoraveiculos.exceptions.DadoInvalidoException;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioCliente;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.util.List;
 
@@ -35,12 +35,7 @@ public class Cliente {
     @Column(nullable = false)
     private String cnh;
 
-
-
-
-
     public Cliente() {
-
     }
 
     public Cliente(Cliente cliente, RepositorioCliente repositorio) {
@@ -71,5 +66,13 @@ public class Cliente {
         this.telefone = cliente.getTelefone();
         this.email = cliente.getEmail();
         this.cnh = cliente.getCnh();
+    }
+
+    private void validarDados(Cliente cliente){
+        if (cliente.getNome().isEmpty() || cliente.getNome() == null) throw new DadoInvalidoException("A nome não pode estar vazio!");
+        if (cliente.getEndereco().isEmpty() || cliente.getEndereco() == null) throw new DadoInvalidoException("O endereço não pode estar vazio!");
+        if (cliente.getTelefone().isEmpty() || cliente.getTelefone() == null) throw new DadoInvalidoException("O telefone não pode estar vazio!");
+        if (cliente.getEmail().isEmpty() || cliente.getEmail() == null) throw new DadoInvalidoException("O email não pode estar vazio!");
+        if (cliente.getCnh().isEmpty() || cliente.getCnh() == null) throw new DadoInvalidoException("A CNH não pode estar vazia!");
     }
 }
