@@ -1,5 +1,7 @@
 package me.lucasggmoreira.locadoraveiculos.controllers.cliente;
 
+import me.lucasggmoreira.locadoraveiculos.exceptions.ClienteJaExistenteException;
+import me.lucasggmoreira.locadoraveiculos.exceptions.DadoInvalidoException;
 import me.lucasggmoreira.locadoraveiculos.models.Cliente;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioCliente;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioVeiculo;
@@ -18,10 +20,8 @@ public class ControladorID {
     private RepositorioVeiculo repositorioVeiculo;
 
     @PostMapping
-    public ResponseEntity<String> cadastrarCliente(@RequestBody Cliente json){
-        Cliente novoCliente = new Cliente(json);
-        repositorioCliente.save(novoCliente);
-        return ResponseEntity.ok("Cliente cadastrado com sucesso!");
+    public ResponseEntity<String> cadastrarCliente(@RequestBody Cliente json) {
+        return null;
     }
 
     @GetMapping

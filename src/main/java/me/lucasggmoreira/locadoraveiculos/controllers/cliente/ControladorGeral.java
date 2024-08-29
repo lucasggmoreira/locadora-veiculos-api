@@ -1,5 +1,7 @@
 package me.lucasggmoreira.locadoraveiculos.controllers.cliente;
 
+import me.lucasggmoreira.locadoraveiculos.exceptions.ClienteJaExistenteException;
+import me.lucasggmoreira.locadoraveiculos.exceptions.DadoInvalidoException;
 import me.lucasggmoreira.locadoraveiculos.models.Cliente;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioCliente;
 import me.lucasggmoreira.locadoraveiculos.repository.RepositorioVeiculo;
@@ -19,9 +21,13 @@ public class ControladorGeral {
 
     @PostMapping
     public ResponseEntity<String> cadastrarCliente(@RequestBody Cliente json){
-        Cliente novoCliente = new Cliente(json);
-        repositorioCliente.save(novoCliente);
-        return ResponseEntity.ok("Cliente cadastrado com sucesso! ID do cliente: " + novoCliente.getId());
+        try{
+            Cliente novoCliente = new Cliente(json, repositorioCliente);
+            repositorioCliente.save(novoCliente);
+            return ResponseEntity.ok("Cliente cadastrado com sucesso!");
+        } catch (ClienteJaExistenteException | DadoInvalidoException e){
+            return ResponseEntity.status(400).body(e.getMessage());
+        }
     }
 
 
